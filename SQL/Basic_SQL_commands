@@ -1,0 +1,148 @@
+SELECT * from SalesLT.Customer;
+
+SELECT * from SalesLT.productModel;
+
+select * from SalesLT.Product where standardcost<500;
+
+select count(Name) , Color from salesLT.Product
+group by Color having count(Name)  > 10; 
+
+select * from salesLT.Product 
+where color='Black'
+order by StandardCost desc
+
+select * from salesLT.Product 
+where color is not NULL
+
+select top 10 color from SalesLT.Product where color ='Blue';
+
+select top 10 standardCost, name from SalesLT.Product
+order by StandardCost desc
+
+select top 10 percent standardCost, name from SalesLT.Product
+order by StandardCost desc
+
+select name, max(standardcost) from salesLT.Product 
+group by name
+
+select Name, AVG(standardCost) from salesLT.Product
+where color='Red' group by name;
+
+select count(*) from salesLT.Product
+where color='Red';
+
+select Name, color from salesLT.Product
+where name like 'mountain%'
+
+select name, color from salesLT.Product
+where color in ('Red', 'Black', 'Blue');
+
+select name, color, standardCost from salesLT.Product
+where standardcost between 100 and 110;
+
+-- List columns in all tables whose name is like 'TableName'
+SELECT 
+    TableName = tbl.TABLE_SCHEMA + '.' + tbl.TABLE_NAME, 
+    ColumnName = col.COLUMN_NAME, 
+    ColumnDataType = col.DATA_TYPE
+FROM INFORMATION_SCHEMA.TABLES tbl
+INNER JOIN INFORMATION_SCHEMA.COLUMNS col 
+    ON col.TABLE_NAME = tbl.TABLE_NAME
+    AND col.TABLE_SCHEMA = tbl.TABLE_SCHEMA
+
+WHERE tbl.TABLE_TYPE = 'BASE TABLE' and tbl.TABLE_NAME ='customer';
+GO
+
+select companyName as Company from salesLT.customer;
+
+select Name, AVG(standardCost) as Avg_cost from salesLT.Product
+where color='Red' group by name;
+
+
+select t.name as Tablename, s.name as Schemaname from sys.tables t
+left join sys.schemas s 
+on t.schema_id = s.schema_id;
+
+select c.firstname, c.lastname , ca.addressID from salesLT.customer c
+left join salesLT.customeraddress ca
+on c.customerID = ca.customerID
+
+
+select c.firstname, c.lastname , ca.addressID from salesLT.customer c
+inner join salesLT.customeraddress ca
+on c.customerID = ca.customerID
+
+select c.firstname, c.lastname , ca.addressID from salesLT.customer c
+full outer join salesLT.customeraddress ca
+on c.customerID = ca.customerID
+
+SELECT p.ProductID, p.Name, pm.Name as ProductModel,
+       pmx.culture, pd.description
+       from salesLT.Product as p
+       inner join salesLT.productModel as pm 
+       on p.ProductID =pm.ProductID 
+       INNER JOIN salesLT.productModelProductDescription as pmx 
+       on pm.productmodelID=pmx.productmodelID
+       INNER join selesLT.productDesription as Pd 
+       on pmx.ProductDescriptionID = pm.ProductDescriptionID;
+
+
+select * from salesLT. product
+where ProductModelID in  
+(select ProductModelID from salesLT.ProductModel where productmodelID=6)
+
+
+select city from salesLT.customer 
+Union 
+select city from salesLT.suplier
+order by city
+
+select name , standardcost, "PriceComment" = 
+        CASE
+            when standardCost > 1000 then 'Too Expensive'
+            else 'within Budget'
+        END
+    from salesLT.Product;
+
+
+    #Insert:
+
+    select * into salesLT.customer_copy from salesLT.customer;
+
+      select * from salesLT.customer_copy;
+
+    
+    create INDEX Test_index on salesLT.Product(Name, color);
+
+    select * from sys.Indexes where name='Test_index '
+
+    drop index Test_index on salesLT.Product;
+
+
+    CREATE VIEW salesLT.ProductviewDescription  AS
+       SELECT p.ProductID, p.Name, pm.Name as ProductModel,
+              pmx.culture, pd.description
+         from salesLT.Product as p
+         inner join salesLT.productModel as pm 
+         on p.ProductmodelID =pm.ProductmodelID 
+         INNER JOIN salesLT.productModelProductDescription as pmx 
+         on pm.productmodelID=pmx.productmodelID
+         INNER join salesLT.productDescription as Pd 
+         on pmx.ProductDescriptionID = pd.ProductDescriptionID;
+
+    select * from salesLT.ProductviewDescription;
+
+
+
+        ALTER VIEW salesLT.ProductviewDescription  AS
+       SELECT p.ProductID, p.Name, pm.Name as ProductModel,
+              pmx.culture, pd.description, p.Productnumber
+         from salesLT.Product as p
+         inner join salesLT.productModel as pm 
+         on p.ProductmodelID =pm.ProductmodelID 
+         INNER JOIN salesLT.productModelProductDescription as pmx 
+         on pm.productmodelID=pmx.productmodelID
+         INNER join salesLT.productDescription as Pd 
+         on pmx.ProductDescriptionID = pd.ProductDescriptionID;
+
+             select * from salesLT.ProductviewDescription;
