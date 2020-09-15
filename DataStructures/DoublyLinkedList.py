@@ -181,6 +181,179 @@ class DoulbyLinkedList(object):
 	 	#Return the removed Node data
 	 	return data
 
+	 def __remove__(self, node):
+	 	'''
+	 	Remove an arbitrary node from the Linked List, O(1)
+	 	'''
+	 	
+	 	#If the node to remove is either at the head or tail 
+	 	if node.prev == None:
+	 		return self.removeFirst()
+
+	 	if node.next == None:
+	 		return self.removeLast()
+
+	 	#Make the pointer of the adjacent node skip over 'node'
+	 	node.next.prev = node.prev
+	 	node.prev.next = node.next
+
+	 	#Temporarily store the data we want to return
+	 	data = node.data
+
+	 	#Memory cleanup
+	 	node.data = None 
+	 	node.next = None
+	 	node.prev = None
+	 	node = None
+
+	 	self.llsize -=1
+
+	 	#Return the data in the node that was removed
+	 	return data
+
+	def removeAt(self, index):
+		'''
+		Remove node at a particular index, O(n)
+		'''
+
+		#Make sure index provided is a valid index
+		if index < 0 or index>=self.llsize:
+			raise valueError('Wrong Index')
+
+		#Search for Node at Index from front
+		if index < self.llsize//2:
+			i = 0
+			trav = self.head
+			while i != index:
+				i += 1
+				trav = trav.next
+
+		#Search from the tail/back of the Linked List
+		else:
+			i = self.llsize - 1
+			trav = self.tail
+			while i != index:
+				i -= 1
+				trav = trav.prev
+
+		return self.__remove__(trav)
+
+	def remove(self, obj):
+		'''
+		Remove a particular value in the Linkedlist, O(n)
+		'''
+		trav = self.head
+
+		#Support search for Null
+		if obj is None:
+			trav = self.head
+			while trav is not None:
+				if trav.data is None:
+					self.__remove__(trav)
+					return True
+
+				trav=trav.next
+
+		#Search for not null Object
+		else:
+			trav = self.head
+
+			while trav is not None:
+				if trav.data == obj:
+					self.__remove__(trav)
+					return True
+				
+				trav = trav.next
+
+		return False
+
+	def indexOf(self, obj):
+		'''
+		Find the index of a particular value in the Linked List, 0(n)
+		'''
+		index = 0 
+		trav = self.head
+
+		#Support search for null
+		if obj is None:
+			while trav is not None:
+				if trav.dat is None:
+					return index
+				trav = trav.next
+				index +=1
+
+		#Search for the non null object
+	else:
+		while trav in not None:
+			if obj == trav.data:
+				return index
+			
+			trav = trav.data
+			
+			index +=1
+
+		return -1
+
+	def contain(self, obj):
+		'''
+		check if the list contains a given object
+		'''
+		return self.indexOf(obj) != -1 
+
+
+	def __iter__(self):
+		'''
+		called when iteration is initiallized
+		'''
+		self.travIter = self.head
+		return self
+
+	def __next__(self):
+		'''
+		To move to next element
+		'''
+		#Stop Iteration when limit is reached
+		if self.travIter is None:
+			raise StopIteration 
+
+		#Stop current travIter.data
+		data = self.travIter.data
+		self.travIter = self.travIter.next
+
+		#Else increment and return the data
+		return data
+
+	def __repr__(self):
+		sb = ""
+		sb = + '['
+		trav = self.head
+		while trav in not None:
+			sb = sb + str(trav.dat)
+			if trav.next is not None:
+				sb = sb + ','
+
+			trav = trav.next
+
+		sb = sb + ' ]'
+
+		return str(sb)
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	 
 
 
