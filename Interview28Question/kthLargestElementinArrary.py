@@ -40,8 +40,8 @@ def kthLargest1(arr, left, right, k):
 		else:
 			return kthLargest1(arr,pivotIndex+1 , right, k-rank)
 
-# Using Median of Medians Algorithm. 0(N)
 
+# Using Median of Medians Algorithm. 0(N/3) worst 0(N)
 def partition2(arr, left, right, pivot):
 	swapIndex=left
 	for i in range(left, right):
@@ -49,6 +49,7 @@ def partition2(arr, left, right, pivot):
 			arr[i], arr[swapIndex] = arr[swapIndex], arr[i]
 			swapIndex += 1
 	return swapIndex-1
+
 
 def kthLargest2(arr, left, right, k):
 	length =  right - left +1

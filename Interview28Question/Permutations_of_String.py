@@ -1,3 +1,7 @@
+#permutation function call for get the perms 0(N) and loop for creating permutation of words O(N!)
+# Hence, time complaxity 0(N * N!)
+
+
 def permutations(word):
 	if len(word) <=1:
 		return(word)

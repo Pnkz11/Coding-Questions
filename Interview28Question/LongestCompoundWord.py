@@ -76,7 +76,7 @@ def longestWord(words):
 	queue=collections.deque()
     
 
-	for word in words:
+	sfor word in words:
 		trie.insert(word)
 
 	#breakpoint()

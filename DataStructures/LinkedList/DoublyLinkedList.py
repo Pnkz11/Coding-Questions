@@ -300,7 +300,6 @@ class DoulbyLinkedList(object):
 		'''
 		return self.indexOf(obj) != -1 
 
-
 	def __iter__(self):
 		'''
 		called when iteration is initiallized
